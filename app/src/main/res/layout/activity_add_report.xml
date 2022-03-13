@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/layout"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="124dp"
+                android:layout_marginTop="44dp"
+                android:ems="7"
+                android:text="Diagnostic code"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="30dp"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="number"
+                />
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="116dp"
+                android:layout_marginTop="50dp"
+                android:ems="9"
+                android:text="Symptoms start date"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="80dp"
+                android:layout_height="43dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="date"
+                android:onClick="setDate"
+                android:text="@string/date_selected"
+                android:textColor="@color/black" />
+
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="144dp"
+                android:layout_marginTop="40dp"
+                android:text="Fever or chills"
+                android:onClick="onCheckboxClicked"/>
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Cough" />
+
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Shortness of breath or difficulty breathing" />
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Fatigue" />
+
+            <CheckBox
+                android:id="@+id/checkBox5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Muscle or body aches" />
+
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Headache" />
+
+            <CheckBox
+                android:id="@+id/checkBox7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="New loss of taste or smell" />
+
+            <CheckBox
+                android:id="@+id/checkBox8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Sore throat" />
+
+            <CheckBox
+                android:id="@+id/checkBox9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Congestion or runny nose" />
+
+            <CheckBox
+                android:id="@+id/checkBox10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Nausea or vomiting" />
+
+            <CheckBox
+                android:id="@+id/checkBox11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="144dp"
+                android:layout_marginTop="28dp"
+                android:text="Diarrhea" />
+
+            <TextView
+                android:id="@+id/txtVw"
+                android:layout_width="109sp"
+                android:layout_height="42sp"
+                android:layout_marginStart="144dp"
+                android:layout_marginTop="28dp"
+                android:gravity="center_vertical"
+                android:text="Select User:"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner0"
+                android:layout_width="138sp"
+                android:layout_height="42sp"
+                android:layout_marginStart="144dp"
+                android:layout_marginTop="28dp"
+
+                />
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="138sp"
+                android:layout_height="42sp"
+                android:layout_marginStart="144dp"
+                android:layout_marginTop="28dp"
+                android:hint="Search here" />
+
+
+            <ListView
+                android:id="@+id/listView0"
+                android:layout_width="138sp"
+                android:layout_height="42sp"
+                android:layout_marginStart="144dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="144dp"
+                android:layout_marginTop="36dp"
+                android:text="Save"
+                android:onClick="writeToDatabase"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
