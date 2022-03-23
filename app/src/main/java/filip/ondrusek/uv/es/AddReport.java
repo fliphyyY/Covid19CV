@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -43,6 +45,9 @@ public class AddReport extends AppCompatActivity implements AdapterView.OnItemSe
     Spinner spin;
    private String dropdown;
    private String municipalitySearch;
+   private MunicipalityDetail municipalityDetail = new MunicipalityDetail();
+   private Button button;
+   private Municipality municipality;
 
 
 
@@ -68,6 +73,7 @@ public class AddReport extends AppCompatActivity implements AdapterView.OnItemSe
 
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         myList = (ArrayList<String>) getIntent().getSerializableExtra("municipalityName");
+        municipality = (Municipality) getIntent().getSerializableExtra("municipality");
         setContentView(R.layout.activity_add_report);
         listView = findViewById(R.id.listView0);
         etSearch = findViewById(R.id.etSearch);
@@ -91,6 +97,18 @@ public class AddReport extends AppCompatActivity implements AdapterView.OnItemSe
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, myList);
         listView.setAdapter(arrayAdapter);
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(v -> {
+              writeToDatabase(v);
+              if(municipality == null) {
+                openMainActivity();
+            }
+
+            else {
+                openMunicipalityDetailActivity(municipality);
+            }
+        }
+        );
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -104,6 +122,11 @@ public class AddReport extends AppCompatActivity implements AdapterView.OnItemSe
             public void afterTextChanged(Editable s) {
             }
         });
+
+        if(myList.size() == 1) {
+            this.municipalitySearch =myList.get(0);
+            etSearch.setText(municipalitySearch);
+        }
 
         listView.setOnItemClickListener((adapterView, view, position, l) -> {
             // TODO Auto-generated method stub
@@ -161,67 +184,55 @@ public class AddReport extends AppCompatActivity implements AdapterView.OnItemSe
     public void writeToDatabase(View view) {
         ReportDbHelper reportDbHelper = new ReportDbHelper(this);
             SQLiteDatabase db = reportDbHelper.getWritableDatabase();
-
-
         String lname = ((EditText)findViewById(R.id.editText)).getText().toString();
         String date = new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year).toString();
-        boolean isChecked = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
-        boolean isChecked2 = ((CheckBox) findViewById(R.id.checkBox2)).isChecked();
-        boolean isChecked3 = ((CheckBox) findViewById(R.id.checkBox3)).isChecked();
-        boolean isChecked4 = ((CheckBox) findViewById(R.id.checkBox4)).isChecked();
-        boolean isChecked5 = ((CheckBox) findViewById(R.id.checkBox5)).isChecked();
-        boolean isChecked6 = ((CheckBox) findViewById(R.id.checkBox6)).isChecked();
-        boolean isChecked7 = ((CheckBox) findViewById(R.id.checkBox7)).isChecked();
-        boolean isChecked8 = ((CheckBox) findViewById(R.id.checkBox8)).isChecked();
-        boolean isChecked9 = ((CheckBox) findViewById(R.id.checkBox9)).isChecked();
-        boolean isChecked10 = ((CheckBox) findViewById(R.id.checkBox10)).isChecked();
-        boolean isChecked11 = ((CheckBox) findViewById(R.id.checkBox11)).isChecked();
+        String isChecked =  new Boolean(((CheckBox) findViewById(R.id.checkBox)).isChecked()).toString();
+        String isChecked2 = new Boolean(((CheckBox) findViewById(R.id.checkBox2)).isChecked()).toString();
+        String isChecked3 = new Boolean(((CheckBox) findViewById(R.id.checkBox3)).isChecked()).toString();
+        String isChecked4 = new Boolean(((CheckBox) findViewById(R.id.checkBox4)).isChecked()).toString();
+        String isChecked5 = new Boolean(((CheckBox) findViewById(R.id.checkBox5)).isChecked()).toString();
+        String isChecked6 = new Boolean(((CheckBox) findViewById(R.id.checkBox6)).isChecked()).toString();
+        String isChecked7 = new Boolean(((CheckBox) findViewById(R.id.checkBox7)).isChecked()).toString();
+        String isChecked8 = new Boolean(((CheckBox) findViewById(R.id.checkBox8)).isChecked()).toString();
+        String isChecked9 = new Boolean(((CheckBox) findViewById(R.id.checkBox9)).isChecked()).toString();
+        String isChecked10 = new Boolean(((CheckBox) findViewById(R.id.checkBox10)).isChecked()).toString();
+        String isChecked11 = new Boolean(((CheckBox) findViewById(R.id.checkBox11)).isChecked()).toString();
 
         ContentValues values = new ContentValues();
         values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE, lname);
-
-
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_SYMPTOMS_START_DATE, date);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_FEVER_CHILLS, isChecked);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_COUGH, isChecked2);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_BREATHING, isChecked3);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_FATIGUE, isChecked4);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_MUSCLE_BODY_ACHES, isChecked5);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_HEADACHE, isChecked6);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_TASTE_SMELL_LOSS, isChecked7);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_SORE_THROAT, isChecked8);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_CONGESTION_RUNNY_NOSE, isChecked9);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_NAUSEA_VOMITING, isChecked10);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_DIARRHEA, isChecked11);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_CLOSE_CONTACT, this.dropdown);
+        values.put(ReportContract.ReportEntry.COLUMN_NAME_MUNICIPALITY, this.municipalitySearch);
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(ReportContract.ReportEntry.TABLE_NAME, null, values);
-
-
-
-
+        db.insert(ReportContract.ReportEntry.TABLE_NAME, null, values);
+     //   Cursor newCursor = municipalityDetail.getAllItems(this.municipalitySearch, reportDbHelper);
+       // municipalityDetail.getmAdapter().swapCursor(newCursor);
     }
 
-
-    public void onCheckboxClicked(View view) {
-        // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-
-        // Check which checkbox was clicked
-        /*switch(view.getId()) {
-            case R.id.checkbox_meat:
-                if (checked)
-                // Put some meat on the sandwich
-            else
-                // Remove the meat
-                break;
-            case R.id.checkbox_cheese:
-                if (checked)
-                // Cheese me
-            else
-                // I'm lactose intolerant
-                break;
-            // TODO: Veggie sandwich
-        }*/
+    private void openMunicipalityDetailActivity(Municipality municipality) {
+         ArrayList<String> municipalityName = new ArrayList<>();
+        municipalityName.add(this.municipalitySearch);
+        Intent intent = new Intent(this,MunicipalityDetail.class);
+        Bundle b = new Bundle();
+        b.putSerializable("municipality", municipality);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
-
+    private void openMainActivity() {
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
 }

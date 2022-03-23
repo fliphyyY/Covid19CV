@@ -22,7 +22,7 @@ public class ReportContract {
         public static final String COLUMN_NAME_CONGESTION_RUNNY_NOSE = "congestion_runny_nose";
         public static final String COLUMN_NAME_NAUSEA_VOMITING = "nausea_vomiting";
         public static final String COLUMN_NAME_DIARRHEA = "diarrhea";
-        public static final String COLUMN_NAME_CLOSE_CONTACT = "diarrhea";
+        public static final String COLUMN_NAME_CLOSE_CONTACT = "close_contact";
         public static final String COLUMN_NAME_MUNICIPALITY = "municipality";
     }
 
@@ -31,19 +31,19 @@ public class ReportContract {
                     ReportEntry._ID + " INTEGER PRIMARY KEY," +
                     ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE + " INTEGER," +
                     ReportEntry.COLUMN_NAME_SYMPTOMS_START_DATE + " TEXT," +
-                    ReportEntry.COLUMN_NAME_FEVER_CHILLS + "TEXT" +
-                    ReportEntry.COLUMN_NAME_COUGH + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_BREATHING + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_FATIGUE + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_MUSCLE_BODY_ACHES + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_HEADACHE + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_TASTE_SMELL_LOSS + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_SORE_THROAT + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_CONGESTION_RUNNY_NOSE + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_NAUSEA_VOMITING + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_DIARRHEA + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_CLOSE_CONTACT + "INTEGER" +
-                    ReportEntry.COLUMN_NAME_MUNICIPALITY + "TEXT)";
+                    ReportEntry.COLUMN_NAME_FEVER_CHILLS + " TEXT," +
+                    ReportEntry.COLUMN_NAME_COUGH + " TEXT," +
+                    ReportEntry.COLUMN_NAME_BREATHING + " TEXT," +
+                    ReportEntry.COLUMN_NAME_FATIGUE + " TEXT," +
+                    ReportEntry.COLUMN_NAME_MUSCLE_BODY_ACHES + " TEXT," +
+                    ReportEntry.COLUMN_NAME_HEADACHE + " TEXT," +
+                    ReportEntry.COLUMN_NAME_TASTE_SMELL_LOSS + " TEXT," +
+                    ReportEntry.COLUMN_NAME_SORE_THROAT + " TEXT," +
+                    ReportEntry.COLUMN_NAME_CONGESTION_RUNNY_NOSE + " TEXT," +
+                    ReportEntry.COLUMN_NAME_NAUSEA_VOMITING + " TEXT," +
+                    ReportEntry.COLUMN_NAME_DIARRHEA + " TEXT," +
+                    ReportEntry.COLUMN_NAME_CLOSE_CONTACT + " TEXT," +
+                    ReportEntry.COLUMN_NAME_MUNICIPALITY + " TEXT)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ReportEntry.TABLE_NAME;

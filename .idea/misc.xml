@@ -5,9 +5,11 @@
       <map>
         <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/activity_add_report.xml" value="0.2086956590966153" />
         <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/activity_municipality_detail.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/activity_municipality_detail.xml" value="0.2086956590966153" />
+        <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/add_report.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/list_item.xml" value="0.20108695652173914" />
         <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/recycler_view_list.xml" value="0.2734375" />
+        <entry key="..\:/Users/igigi/Desktop/UV/projectsAndroid/Covid19CV/app/src/main/res/layout/report_recycler_list.xml" value="0.1" />
       </map>
     </option>
   </component>
