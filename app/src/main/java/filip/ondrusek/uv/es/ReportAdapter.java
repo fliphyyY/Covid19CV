@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
     private Context mContext;
     private Cursor mCursor;
+    private View.OnClickListener onItemClickListener;
 
 
     public  ReportAdapter(Context context, Cursor cursor) {
@@ -19,12 +20,18 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     }
 
+    public void setOnItemClickListener(View.OnClickListener itemClickListener) {
+        this.onItemClickListener = itemClickListener;
+    }
+
     public class ReportViewHolder extends RecyclerView.ViewHolder {
         public TextView item;
 
         public ReportViewHolder(View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.textviewReportList);
+            itemView.setTag(this);
+            itemView.setOnClickListener(onItemClickListener);
         }
     }
 
@@ -39,6 +46,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         return new ReportViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ReportAdapter.ReportViewHolder holder, int position) {
         if(!mCursor.moveToPosition(position)) {
@@ -52,16 +60,5 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     @Override
     public int getItemCount() {
         return mCursor.getCount();
-    }
-
-    public void swapCursor(Cursor newCursor) {
-        if (mCursor != null) {
-            mCursor.close();
-        }
-
-        mCursor = newCursor;
-        if (newCursor != null)  {
-            notifyDataSetChanged();
-        }
     }
 }

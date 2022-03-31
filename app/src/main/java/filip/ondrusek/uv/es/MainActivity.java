@@ -2,19 +2,16 @@ package filip.ondrusek.uv.es;
 
 import static java.lang.Integer.parseInt;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -33,8 +29,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
    private ArrayList<Municipality> municipality = new ArrayList<>();
-   private ArrayList<String> municipalityName = new ArrayList<>();
+   private ArrayList<String> municipalityNamesList = new ArrayList<>();
    private AdapterMunicipality adapterMunicipality;
+   private Report report;
 
     private View.OnClickListener onItemClickListener = view -> {
         RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
@@ -57,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         try {
             Init();
         } catch (JSONException e) {
@@ -80,14 +79,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this,AddReport.class);
             Bundle b = new Bundle();
-            b.putSerializable("municipalityName", municipalityName);
+            b.putSerializable("municipalityNamesList", municipalityNamesList);
+            intent.putExtras(b);
+            b.putSerializable("flag", "MainActivity");
             intent.putExtras(b);
             startActivity(intent);
         });
 
     }
     private void openMunicipalityDetailActivity(Municipality municipality) {
-        Intent intent = new Intent(this,MunicipalityDetail.class);
+        Intent intent = new Intent(this,MunicipalityDetailActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("municipality", municipality);
         intent.putExtras(b);
@@ -142,14 +143,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        CreateMunicipalityList();
+        CreateReportObject();
     }
 
-    private void CreateMunicipalityList()
+    private void CreateReportObject()
     {
         for(int i = 0; i < this.municipality.size(); i++)
         {
-            this.municipalityName.add(this.municipality.get(i).getMunicipality());
+            this.municipalityNamesList.add(this.municipality.get(i).getMunicipality());
         }
     }
 

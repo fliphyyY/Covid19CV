@@ -13,8 +13,9 @@
             android:name=".AddReport"
             android:exported="false" />
         <activity
-            android:name=".MunicipalityDetail"
-            android:exported="false" />
+            android:name=".MunicipalityDetailActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -25,4 +26,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

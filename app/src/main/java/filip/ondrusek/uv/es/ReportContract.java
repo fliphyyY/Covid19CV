@@ -29,7 +29,7 @@ public class ReportContract {
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + ReportEntry.TABLE_NAME + " (" +
                     ReportEntry._ID + " INTEGER PRIMARY KEY," +
-                    ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE + " INTEGER," +
+                    ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE + " TEXT," +
                     ReportEntry.COLUMN_NAME_SYMPTOMS_START_DATE + " TEXT," +
                     ReportEntry.COLUMN_NAME_FEVER_CHILLS + " TEXT," +
                     ReportEntry.COLUMN_NAME_COUGH + " TEXT," +
