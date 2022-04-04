@@ -79,10 +79,7 @@ public class AddReport extends AppCompatActivity implements AdapterView.OnItemSe
         checkBoxInitialization();
         spinnerInitialization();
         diagnosticCode = findViewById(R.id.diagnosticCode);
-        diagnosticCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
+        diagnosticCode.setOnClickListener(v -> {
         });
 
         diagnosticCode.setOnFocusChangeListener((v, hasFocus) -> {

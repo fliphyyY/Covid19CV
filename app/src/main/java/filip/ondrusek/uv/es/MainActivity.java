@@ -1,37 +1,29 @@
 package filip.ondrusek.uv.es;
 
-import static java.lang.Integer.parseInt;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
    private ArrayList<Municipality> municipality = new ArrayList<>();
    private ArrayList<String> municipalityNamesList = new ArrayList<>();
+   private HTTPConnector httpConnector = new HTTPConnector();
    private AdapterMunicipality adapterMunicipality;
    private Report report;
+   private JSONObject jsonObject;
+   private boolean internetConnection;
+   private FloatingActionButton floatingActionButton;
 
     private View.OnClickListener onItemClickListener = view -> {
         RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
@@ -54,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        floatingActionButton = findViewById(R.id.fab);
         try {
             Init();
-        } catch (JSONException e) {
+        } catch (JSONException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
 
@@ -75,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
         adapterMunicipality.setOnItemClickListener(onItemClickListener);
 
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
+        floatingActionButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this,AddReport.class);
             Bundle b = new Bundle();
             b.putSerializable("municipalityNamesList", municipalityNamesList);
@@ -95,31 +85,28 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void Init() throws JSONException {
-        InputStream is = getResources().openRawResource(R.raw.datastore_search);
-        Writer writer = new StringWriter();
-        char[] buffer = new char[1024];
-        try {
-            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            int n;
-            while ((n = reader.read(buffer)) != -1) {
-                writer.write(buffer, 0, n);
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void Init() throws JSONException, InterruptedException, IOException {
+        isConnected();
+        floatingActionButton.setEnabled(internetConnection);
+        if(internetConnection)
+        {
+            Thread thread = new Thread(() -> {
+                try  {
+                    this.jsonObject =  httpConnector.doInBackground();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            thread.start();
+            thread.join();
+            JSONObject jsonObjectResult = jsonObject.getJSONObject("result");
+            JSONArray jsonArray = jsonObjectResult.optJSONArray("records");
+            this.CreateList(jsonArray);
+        } else {
+            Toast.makeText(getApplicationContext(),"No internet connection!",Toast.LENGTH_LONG).show();
+
         }
-        JSONObject jsonObject = new JSONObject(writer.toString());
-        JSONObject jsonObjectResult = jsonObject.getJSONObject("result");
-        JSONArray jsonArray = jsonObjectResult.optJSONArray("records");
-        this.CreateList(jsonArray);
     }
 
     private void CreateList(JSONArray jsonArray) {
@@ -152,6 +139,13 @@ public class MainActivity extends AppCompatActivity {
         {
             this.municipalityNamesList.add(this.municipality.get(i).getMunicipality());
         }
+    }
+
+    private void isConnected() throws InterruptedException, IOException {
+
+        String command = "ping -c 1 google.com";
+        internetConnection = Runtime.getRuntime().exec(command).waitFor() == 0;
+
     }
 
 }
