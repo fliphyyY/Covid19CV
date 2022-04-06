@@ -53,8 +53,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
            return;
         }
 
-        int code = mCursor.getInt(mCursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE));
-        holder.item.setText(String.valueOf(code));
+        String code ="Diagnostic code: " + mCursor.getString(mCursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE)) +"\n Symptoms start date: " + mCursor.getString(mCursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_SYMPTOMS_START_DATE));
+        holder.item.setText(code);
     }
 
     @Override

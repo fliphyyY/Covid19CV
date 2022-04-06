@@ -1,11 +1,12 @@
 package filip.ondrusek.uv.es;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class Municipality implements Serializable {
 
     public int id;
-    public int codeMunicipality;
+    public String codeMunicipality;
     public String municipality;
     public int casesPCR;
     public String cumulativeIncidence;
@@ -14,7 +15,7 @@ public class Municipality implements Serializable {
     public int deaths;
     public String deathRate;
 
-    public Municipality(int id, int codeMunicipality, String municipality, int casesPCR, String cumulativeIncidence, int casesPCR14, String casesPCR14cumulativeIncidence, int deaths, String deathRate) {
+    public Municipality(int id, String codeMunicipality, String municipality, int casesPCR, String cumulativeIncidence, int casesPCR14, String casesPCR14cumulativeIncidence, int deaths, String deathRate) {
         this.id = id;
         this.codeMunicipality = codeMunicipality;
         this.municipality = municipality;
@@ -34,11 +35,11 @@ public class Municipality implements Serializable {
         this.id = id;
     }
 
-    public int getCodeMunicipality() {
+    public String getCodeMunicipality() {
         return codeMunicipality;
     }
 
-    public void setCodeMunicipality(int codeMunicipality) {
+    public void setCodeMunicipality(String codeMunicipality) {
         this.codeMunicipality = codeMunicipality;
     }
 
@@ -92,4 +93,32 @@ public class Municipality implements Serializable {
     public void setDeathRate(String deathRate) {
         this.deathRate = deathRate;
     }
+
+    public static Comparator<Municipality> OrderByCumulativeIncidenceAscending = new Comparator<Municipality>() {
+        @Override
+        public int compare(Municipality m1, Municipality m2) {
+            return Double.compare(Double.parseDouble(m1.getCumulativeIncidence().trim().replace(",",".")), Double.parseDouble(m2.getCumulativeIncidence().trim().replace(",",".")));
+        }
+    };
+
+    public static Comparator<Municipality> OrderByCumulativeIncidenceDescending = new Comparator<Municipality>() {
+        @Override
+        public int compare(Municipality m1, Municipality m2) {
+            return Double.compare(Double.parseDouble(m2.getCumulativeIncidence().trim().replace(",",".")), Double.parseDouble(m1.getCumulativeIncidence().trim().replace(",",".")));
+        }
+    };
+
+    public static Comparator<Municipality> OrderByMunicipalityAscending = new Comparator<Municipality>() {
+        @Override
+        public int compare(Municipality m1, Municipality m2) {
+            return m1.getMunicipality().compareTo(m2.getMunicipality());
+        }
+    };
+
+    public static Comparator<Municipality> OrderByMunicipalityDescending = new Comparator<Municipality>() {
+        @Override
+        public int compare(Municipality m1, Municipality m2) {
+            return m2.getMunicipality().compareTo(m1.getMunicipality());
+        }
+    };
 }

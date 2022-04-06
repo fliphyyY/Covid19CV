@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Covid19CV</string>
     <string name="date_selected"></string>
+    <string name="menu_item1_main"> Generality Valencia website</string>
+    <string name="menu_item2_main">Order by cum. incidence/municipality</string>
+    <string name="menu_item3_main">Sorting ascending/descending</string>
+    <string name="menu_item1_detail"> Location</string>
 </resources>

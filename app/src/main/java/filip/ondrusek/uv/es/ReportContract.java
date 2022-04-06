@@ -8,7 +8,6 @@ public class ReportContract {
 
     public static class ReportEntry implements BaseColumns {
         public static final String TABLE_NAME = "report";
-        //public static final String COLUMN_ID= "_id";
         public static final String COLUMN_NAME_DIAGNOSTIC_CODE = "diagnostic_code";
         public static final String COLUMN_NAME_SYMPTOMS_START_DATE = "symptoms_start_date";
         public static final String COLUMN_NAME_FEVER_CHILLS = "fever_chills";

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Covid19CV">
         <activity
-            android:name=".AddReport"
+            android:name=".AddReportActivity"
             android:exported="false" />
 
         <activity

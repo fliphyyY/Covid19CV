@@ -3,7 +3,10 @@ package filip.ondrusek.uv.es;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,7 +27,7 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
     private Municipality municipality;
     private ReportAdapter mAdapter;
     private SQLiteDatabase db;
-    private final ArrayList<String> mArrayList = new ArrayList<String>();
+    private final ArrayList<String> mArrayList = new ArrayList<>();
     private final ReportDbHelper reportDbHelper = new ReportDbHelper(this);
     private Report report;
 
@@ -34,7 +38,7 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
         String reportCode = mArrayList.get(position);
         Cursor cursor = getRowByDiagnosticCode(reportCode, reportDbHelper);
         createReportObject(cursor);
-        Intent intent = new Intent(MunicipalityDetailActivity.this, AddReport.class);
+        Intent intent = new Intent(MunicipalityDetailActivity.this, AddReportActivity.class);
         Bundle b = new Bundle();
         b.putSerializable("flag", "ReportEditing");
         intent.putExtras(b);
@@ -51,6 +55,7 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_municipality_detail);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         municipality = (Municipality) getIntent().getSerializableExtra("municipality");
         TextView textView0 = findViewById(R.id.textView0);
@@ -74,12 +79,13 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_report);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ReportAdapter(getApplicationContext(), getDiagnosticCode(municipality.getMunicipality(), reportDbHelper));
+        mAdapter = new ReportAdapter(getApplicationContext(), getDiagnosticCodeAndDate(municipality.getMunicipality(), reportDbHelper));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            Intent intent = new Intent(MunicipalityDetailActivity.this, AddReport.class);
+            Intent intent = new Intent(MunicipalityDetailActivity.this, AddReportActivity.class);
             Bundle b = new Bundle();
             b.putSerializable("flag", "MunicipalityDetail");
             intent.putExtras(b);
@@ -96,19 +102,18 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
+            case R.id.item1:
+                String url = "https://www.google.com/maps/place/" + municipality.getMunicipality() + ",Spain";
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void createReportObject(Cursor cursor) {
         try {
-
-            // If moveToFirst() returns false then cursor is empty
-            if (!cursor.moveToFirst()) {
-            }
-
+            cursor.moveToFirst();
             do {
-                // Read the values of a row in the table using the indexes acquired above
                 String diagnosticCode = cursor.getString(cursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE));
                 String date = cursor.getString(cursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_SYMPTOMS_START_DATE));
                 String feverChills = cursor.getString(cursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_FEVER_CHILLS));
@@ -125,18 +130,16 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
                 String closeContact = cursor.getString(cursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_CLOSE_CONTACT));
                 String municipality = cursor.getString(cursor.getColumnIndexOrThrow(ReportContract.ReportEntry.COLUMN_NAME_MUNICIPALITY));
                 report = new Report(diagnosticCode, date, feverChills, cough, breath, fatigue, bodyAches, headache, lossTaste, soreThroat, congestion, nausea, diarrhea, closeContact, municipality);
-
             } while (cursor.moveToNext());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public Cursor getDiagnosticCode(String municipality, ReportDbHelper reportDbHelper) {
+    public Cursor getDiagnosticCodeAndDate(String municipality, ReportDbHelper reportDbHelper) {
         db = reportDbHelper.getReadableDatabase();
-        String selectQuery = "SELECT diagnostic_code FROM report WHERE municipality = ?";
+        String selectQuery = "SELECT diagnostic_code, symptoms_start_date FROM report WHERE municipality = ?";
         String[] selectionArgs = new String[]{municipality};
         Cursor c = db.rawQuery(selectQuery, selectionArgs);
         getArrayListCursor(c);
@@ -156,8 +159,15 @@ public class MunicipalityDetailActivity extends AppCompatActivity {
     private void getArrayListCursor(Cursor mCursor) {
         final int idIndex = mCursor.getColumnIndex(ReportContract.ReportEntry.COLUMN_NAME_DIAGNOSTIC_CODE);
         for (mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
-            // The Cursor is now set to the right position
             mArrayList.add(mCursor.getString(idIndex));
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.municipality_detail_menu, menu);
+        return true;
+    }
+
 }
